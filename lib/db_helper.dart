@@ -15,15 +15,11 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper();
 
   //database initialized
-  late Database _database;
+  static Database? _database;
 
-  Future<Database> get database async {
-    if (database != null) {
-      return _database;
-    } else {
-      _database = await intDB();
-      return _database;
-    }
+  Future<Database?> get database async {
+    _database ??= await intDB();
+    return _database;
   }
 
   intDB() async {
@@ -32,39 +28,39 @@ class DatabaseHelper {
     return await openDatabase(path, version: dbVersion, onCreate: onCreate);
   }
 
+  //Database table create method
   Future onCreate(Database db, int version) async {
     db.execute('''  
         CREATE TABLE $dbTable(
         $ColumnId INTEGER PRIMARY KEY,
         $ColumnName TEXT NOT NULL
-      
         )
       ''');
   }
 
   //insert Method
-  insert(Map<String, dynamic> row) async {
-    Database db = await instance._database;
-    return await db.insert(dbTable, row);
+  insertRecord(Map<String, dynamic> row) async {
+    Database? db = await instance.database;
+    return await db!.insert(dbTable, row);
   }
 
   //Read/query Method
   Future<List<Map<String, dynamic>>> queryRecord() async {
-    Database db = await instance._database;
-    return await db.query(dbTable);
+    Database? db = await instance.database;
+    return await db!.query(dbTable);
   }
 
   //update method
   Future<int> update(Map<String, dynamic> row) async {
-    Database db = await instance._database;
+    Database? db = await instance.database;
     int id = row[ColumnId];
-    return await db
+    return await db!
         .update(dbTable, row, where: '$ColumnId = ?', whereArgs: [id]);
   }
 
   //delete method
   Future<int> deleteRecord(int id) async {
-    Database db = await instance._database;
-    return await db.delete(dbTable, where: '$ColumnId = ?', whereArgs: [id]);
+    Database? db = await instance.database;
+    return await db!.delete(dbTable, where: '$ColumnId = ?', whereArgs: [id]);
   }
 }

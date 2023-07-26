@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_database/db_helper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,17 +29,46 @@ class DatabaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            //create button
-            ElevatedButton(onPressed: () {}, child: Text("Create")),
-            //read button
-            ElevatedButton(onPressed: () {}, child: Text("Read")),
-            //update button
-            ElevatedButton(onPressed: () {}, child: Text("Update")),
-            //delete button
-            ElevatedButton(onPressed: () {}, child: Text("Delete")),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 250),
+          child: Column(
+            children: [
+              //create button
+              ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.instance.insertRecord({
+                    DatabaseHelper.ColumnName: 'Flutter',
+                  });
+                },
+                child: Text("Insert"),
+              ),
+              //read button
+              ElevatedButton(
+                onPressed: () async {
+                  var dbquery = await DatabaseHelper.instance.queryRecord();
+                  print(dbquery);
+                },
+                child: Text("Read"),
+              ),
+              //update button
+              ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.instance.update({
+                    DatabaseHelper.ColumnId: 1,
+                    DatabaseHelper.ColumnName: "Dhaka"
+                  });
+                },
+                child: Text("Update"),
+              ),
+              //delete button
+              ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.instance.deleteRecord(2);
+                },
+                child: Text("Delete"),
+              ),
+            ],
+          ),
         ),
       ),
     );
