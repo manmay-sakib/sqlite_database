@@ -1,16 +1,2 @@
-# sqlite_database
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This codes is about SQLite database. Which is used in both android and ios as primary database in the device. In this project I have executed the CURD operations. For that I have made four buttons and integrate them with the
+business logic part. For this flutter has offerd us sqflite package, which i used in this project. 
